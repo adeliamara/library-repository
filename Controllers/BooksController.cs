@@ -149,5 +149,25 @@ namespace library.Controllers
         {
             return _context.Books.Any(e => e.Id == id);
         }
+
+   [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> AddToCatalog(int bookId, int catalogId)
+{
+    var book = await _context.Books.FindAsync(bookId);
+    var catalog = await _context.Catalogs.FindAsync(catalogId);
+
+    if (book == null || catalog == null)
+    {
+        return NotFound();
+    }
+
+    book.AddToCatalog(catalog);
+
+    await _context.SaveChangesAsync();
+
+    return RedirectToAction(nameof(Index));
+}
+
     }
 }

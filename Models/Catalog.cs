@@ -10,11 +10,14 @@ namespace library.Models
     {
         [Display(Name = "Catalog ID")]
         public int Id { get; set; }
-        [Display(Name = "Author Name")]
+
+        [Display(Name = "Nome do autor")]
         public string? AuthorName { get; set; }
-        [Display(Name = "Number of Copies")]
+
+        [Display(Name = "Numero de copias")]
         public int NumberOfCopies { get; set; }
-        [Display(Name = "Number of Available Copies")]
+
+        [Required, Display(Name = "Livros")]
         public virtual ICollection<Book> Books { get; set; }
 
         public void UpdateInfo() 

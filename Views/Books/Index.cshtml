@@ -9,7 +9,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
 <table class="table">
+    <!-- Cabeçalho da tabela -->
     <thead>
         <tr>
             <th>
@@ -25,23 +27,53 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfBooks)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        <!-- Linhas da tabela para cada livro -->
+        @foreach (var item in Model)
+
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfBooks)
+                </td>
+                <td>
+                    <form id="addToCatalogForm">
+                        <label for="catalogId">ID do Catálogo:</label>
+                        <input type="text" id="catalogId" name="catalogId" required>
+                        <input type="hidden" id="bookId" name="bookId">
+                        <button type="submit">Adicionar ao Catálogo</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.addToCatalogBtn').click(function () {
+                var bookId = $(this).data('book-id');
+                $('#bookId').val(bookId);
+            });
+
+            $('#addToCatalogForm').submit(function (event) {
+                event.preventDefault();
+
+                var bookId = $('#bookId').val();
+                var catalogId = $('#catalogId').val();
+
+                $.post("/Books/AddToCatalog", { bookId: bookId, catalogId: catalogId }, function (data) {
+                    window.location.reload();
+                });
+            });
+        });
+    </script>
+}
