@@ -30,6 +30,8 @@
         <!-- Linhas da tabela para cada livro -->
         @foreach (var item in Model)
 
+
+
         {
             <tr>
                 <td>
@@ -48,6 +50,11 @@
                         <input type="hidden" id="bookId" name="bookId">
                         <button type="submit">Adicionar ao Catálogo</button>
                     </form>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
